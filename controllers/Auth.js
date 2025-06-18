@@ -5,7 +5,7 @@ const Profile = require("../models/Profile");
 const bcrypt = require("bcrypt") ;
 const jwt = require("jsonwebtoken") ;
 require("dotenv").config() ; 
-const mailSender = require("../utils/MailSender")
+const mailSender = require("../utils/mailSender")
 const otpTemplate = require("../mail/templates/emailVerificationTemplate") ;
 
 //  otp send 
