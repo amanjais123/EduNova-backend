@@ -12,7 +12,8 @@ exports.auth = async (req, res, next) => {
       req.cookies?.token || 
       req.body?.token || 
       (req.headers.authorization && req.headers.authorization.split(" ")[1]);
-
+console.log("🧪 Cookies:", req.cookies);
+console.log("🧪 Auth Header:", req.headers.authorization);
     if (!token) {
       return res.status(401).json({
         success: false,
