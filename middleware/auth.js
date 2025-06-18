@@ -7,59 +7,48 @@ const User = require("../models/User") ;
 
 //Auth
 exports.auth = async (req , res  ,next) => {
-try {
-     console.log("💬 Cookies:", req.cookies);
+  try {
+    console.log("💬 Cookies:", req.cookies);
     console.log("💬 Headers:", req.headers);
     console.log("💬 Body:", req.body);
 
-
-
     const token = req.cookies.token
-                    || req.body.token
-                    || req.header("Authorization")?.replace("Bearer ", "") ;
-console.log("token nikal liya bhai");
-console.log("Auth middleware triggered");
-console.log("Authorization Header:", req.headers.authorization);
+                || req.body.token
+                || req.header("Authorization")?.replace("Bearer ", "") ;
 
-    console.log("🪪 Extracted Token:", token); // <--- Add this
+    console.log("Auth middleware triggered");
+    console.log("Authorization Header:", req.headers.authorization);
+    console.log("🪪 Extracted Token:", token);
 
-     if(!token){
-        return res.status(401).json({
-            success : false ,
-            message : "token is missing" ,
-        });
-     }
-
-//verify token
-     try{
-        const decode = jwt.verify(token  , process.env.JWT_SECRET) ;
-        console.log(decode) ;
-        req.user = decode ;
-console.log("JWT verified successfully");
-     }
-     catch(err){
-        res.status(401).json({
-            success : false ,
-            message : "Invalid token !!" ,
-
-        }) ;
-     }
-
-
-
-next() ;
-
-
-}
-catch(error){
-      res.status(401).json({
+    if(!token){
+      return res.status(401).json({
         success : false ,
-        message : "Something went wrong while verifying token",
-
+        message : "Token is missing" ,
       });
+    }
 
+    try {
+      const decode = jwt.verify(token, process.env.JWT_SECRET);
+      console.log(decode);
+      req.user = decode;
+      console.log("JWT verified successfully");
+    } catch(err) {
+      return res.status(401).json({   // ✅ ADD RETURN
+        success : false ,
+        message : "Invalid token !!" ,
+      });
+    }
+
+    next(); // ✅ Only called if verification succeeds
+  }
+  catch(error){
+    return res.status(401).json({   // ✅ ADD RETURN
+      success : false ,
+      message : "Something went wrong while verifying token",
+    });
+  }
 }
-}
+
 
 
 
