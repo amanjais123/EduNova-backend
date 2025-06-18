@@ -17,7 +17,7 @@ try {
     const token = req.cookies.token
                     || req.body.token
                     || req.header("Authorization")?.replace("Bearer ", "") ;
-
+console.log("token nikal liya bhai");
 console.log("Auth middleware triggered");
 console.log("Authorization Header:", req.headers.authorization);
 
