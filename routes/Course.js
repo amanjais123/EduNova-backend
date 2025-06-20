@@ -77,7 +77,7 @@ router.get("/getInstructorCourses", auth, isInstructor , getInstructorCourses)
 // Delete a Course
  router.delete("/deleteCourse", deleteCourse)
 // Get Details for a Specific Courses
-router.post("/getFullCourseDetails" ,  getFullCourseDetails)
+router.post("/getFullCourseDetails" ,auth,  getFullCourseDetails)
 
 
 // ********************************************************************************************************
