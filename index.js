@@ -17,9 +17,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const PORT = process.env.PORT || 4000;
 
-//database connect
 database.connect();
-//middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -37,10 +35,9 @@ app.use(
 		tempFileDir:"/tmp",
 	})
 )
-//cloudinary connection
 cloudinaryConnect();
 
-//routes
+
 app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/profile", profileRoutes);
 app.use("/api/v1/course", courseRoutes);
@@ -48,7 +45,6 @@ app.use("/api/v1/payment", paymentRoutes);
 
 
 
-//def route
 
 app.get("/", (req, res) => {
 	return res.json({
