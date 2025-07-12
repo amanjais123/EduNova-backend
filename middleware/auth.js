@@ -12,8 +12,8 @@ exports.auth = async (req, res, next) => {
       req.cookies?.token || 
       req.body?.token || 
       (req.headers.authorization && req.headers.authorization.split(" ")[1]);
-console.log("🧪 Cookies:", req.cookies);
-console.log("🧪 Auth Header:", req.headers.authorization);
+console.log("Cookies:", req.cookies);
+console.log("Auth Header:", req.headers.authorization);
     if (!token) {
       return res.status(401).json({
         success: false,
@@ -23,7 +23,7 @@ console.log("🧪 Auth Header:", req.headers.authorization);
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded; // 👈 Now your controller can access req.user.id
+      req.user = decoded; 
       next();
     } catch (error) {
       return res.status(401).json({
