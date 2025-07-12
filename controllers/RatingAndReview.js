@@ -5,11 +5,8 @@ const { default: mongoose } = require("mongoose");
 //create Rating
 exports.createRating=async(req,res) =>{
     try{
-        //get user id
         const userId=req.user.id;
-        //fetch data from req body
         const {rating,review,courseId} =req.body;
-        //check if user is enrolled
         const courseDetails =await Course.findOne(
                                          {_id:courseId,
                                         studentsEnrolled:{$elemMatch: {$eq:userId}},
@@ -20,7 +17,6 @@ exports.createRating=async(req,res) =>{
                 message:"Student is not enrolled in the course",
             });
         }
-        //check user already reviewd course
         const alreadyReviewed=await RatingAndReview.findOne({
                                                 user:userId,
                                                 course:courseId,
@@ -45,7 +41,6 @@ exports.createRating=async(req,res) =>{
                                         }
                                     },
                                     {new:true});
-        //return response
         console.log(updatedCourseDetails);
         return res.status(200).json({
             success:true,
@@ -66,9 +61,7 @@ exports.createRating=async(req,res) =>{
 //get Average Rating
 exports.getAverageRating =async(req,res) =>{
     try{
-        //get courseId
         const courseId=req.body.courseId;
-        //calculate average rating
 
         const result= await RatingAndReview.aggregate([
             {
@@ -83,7 +76,7 @@ exports.getAverageRating =async(req,res) =>{
                 }
             }
         ])
-        //return rating
+        
         if(result.length > 0){
             return res.status(200).json({
                 success:true,
@@ -108,7 +101,6 @@ exports.getAverageRating =async(req,res) =>{
 
 
 
-//get all rating
 exports.getAllRating=async(req,res) =>{
     console.log("into the get all ratings")
     try{
